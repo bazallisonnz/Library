@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Library.API.Entities
+﻿namespace Library.API.Entities
 {
+    using System;
+    using System.Collections.Generic;
+
     public static class LibraryContextExtensions
     {
         public static void EnsureSeedDataForContext(this LibraryContext context)

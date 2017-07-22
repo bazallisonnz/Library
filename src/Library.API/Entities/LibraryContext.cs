@@ -1,11 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Library.API.Entities
+﻿namespace Library.API.Entities
 {
-    public class LibraryContext : DbContext
+    using Microsoft.EntityFrameworkCore;
+
+    public sealed class LibraryContext : DbContext
     {
-        public LibraryContext(DbContextOptions<LibraryContext> options)
-           : base(options)
+        public LibraryContext(DbContextOptions<LibraryContext> options) : base(options)
         {
             Database.Migrate();
         }

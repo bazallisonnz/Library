@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Library.API.Helpers
+﻿namespace Library.API.Helpers
 {
+    using System;
+
     public static class DateTimeOffsetExtensions
     {
         public static int GetCurrentAge(this DateTimeOffset dateTimeOffset)

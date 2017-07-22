@@ -1,10 +1,10 @@
-﻿using Library.API.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Library.API.Services
+﻿namespace Library.API.Services
 {
+    using Entities;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class LibraryRepository : ILibraryRepository
     {
         private LibraryContext _context;
@@ -36,7 +36,7 @@ namespace Library.API.Services
             {
                 // if there isn't an id filled out (ie: we're not upserting),
                 // we should generate one
-                if (book.Id == null)
+                if (book.Id == Guid.Empty)
                 {
                     book.Id = Guid.NewGuid();
                 }
