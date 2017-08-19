@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Library.API.Models
 {
-    public class AuthorForCreateDto
+    public class AuthorForCreationDto
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

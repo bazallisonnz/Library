@@ -45,14 +45,14 @@ namespace Library.API.Controllers
         }
 
         [HttpPost()]
-        public IActionResult CreateAuthor([FromBody]AuthorForCreateDto authorForCreateDto)
+        public IActionResult CreateAuthor([FromBody]AuthorForCreationDto authorForCreationDto)
         {
-            if (authorForCreateDto == null)
+            if (authorForCreationDto == null)
             {
                 return BadRequest();
             }
 
-            var authorEntity = Mapper.Map<Entities.Author>(authorForCreateDto);
+            var authorEntity = Mapper.Map<Entities.Author>(authorForCreationDto);
 
             _libraryRepository.AddAuthor(authorEntity);
 
@@ -75,6 +75,26 @@ namespace Library.API.Controllers
             }
 
             return NotFound();
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteAuthor(Guid id)
+        {
+            var authorEntity = _libraryRepository.GetAuthor(id);
+
+            if (authorEntity == null)
+            {
+                return NotFound();
+            }
+
+            _libraryRepository.DeleteAuthor(authorEntity);
+
+            if (!_libraryRepository.Save())
+            {
+                throw new Exception($"Deleting author {id} failed on save.");
+            }
+
+            return NoContent();
         }
     }
 }

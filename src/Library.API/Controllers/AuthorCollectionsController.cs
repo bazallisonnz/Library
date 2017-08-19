@@ -23,7 +23,7 @@ namespace Library.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateAuthorCollection([FromBody] IEnumerable<AuthorForCreateDto> authorCollection)
+        public IActionResult CreateAuthorCollection([FromBody] IEnumerable<AuthorForCreationDto> authorCollection)
         {
             if (authorCollection == null)
             {
