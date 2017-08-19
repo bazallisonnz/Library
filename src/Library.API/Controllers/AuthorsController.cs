@@ -1,4 +1,5 @@
 ﻿using Library.API.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Library.API.Controllers
 {
@@ -44,7 +45,7 @@ namespace Library.API.Controllers
         }
 
         [HttpPost()]
-        public IActionResult CreateAuthor(Guid id, [FromBody]AuthorForCreateDto authorForCreateDto)
+        public IActionResult CreateAuthor([FromBody]AuthorForCreateDto authorForCreateDto)
         {
             if (authorForCreateDto == null)
             {
@@ -63,6 +64,17 @@ namespace Library.API.Controllers
             var authorToReturn = Mapper.Map<AuthorDto>(authorEntity);
 
             return CreatedAtRoute("GetAuthor", new {id = authorToReturn.Id}, authorToReturn);
+        }
+
+        [HttpPost("{id}")]
+        public IActionResult BlockAuthorCreation(Guid id)
+        {
+            if (_libraryRepository.AuthorExists(id))
+            {
+                return new StatusCodeResult(StatusCodes.Status409Conflict);
+            }
+
+            return NotFound();
         }
     }
 }
