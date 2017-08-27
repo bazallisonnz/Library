@@ -78,7 +78,9 @@
                    .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.DateOfBirth.GetCurrentAge()));
                 cfg.CreateMap<Entities.Book, Models.BookDto>();
                 cfg.CreateMap<Models.AuthorForCreationDto, Author>();
-                cfg.CreateMap<Models.BookForCreateDto, Book>();
+                cfg.CreateMap<Models.BookForCreationDto, Book>();
+                cfg.CreateMap<Models.BookForUpdateDto, Book>();
+                cfg.CreateMap<Entities.Book, Models.BookForUpdateDto>();
             });
 
             libraryContext.EnsureSeedDataForContext();
