@@ -1,7 +1,9 @@
-﻿namespace Library.API
+﻿using Library.API.Helpers;
+
+namespace Library.API
 {
-    using Entities;
-    using Helpers;
+    using Library.API.Entities;
+    using Library.API.Services;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -10,8 +12,6 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
-    using Services;
-
 
     public class Startup
     {
@@ -20,15 +20,15 @@
         public Startup(IHostingEnvironment env)
         {
             var builder = new ConfigurationBuilder().SetBasePath(env.ContentRootPath)
-                                                    .AddJsonFile("appSettings.json", optional: false, reloadOnChange: true)
-                                                    .AddJsonFile($"appSettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
-                                                    .AddEnvironmentVariables();
+                .AddJsonFile("appSettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appSettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true)
+                .AddEnvironmentVariables();
 
             Configuration = builder.Build();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        // For more information on how to configure your application, visit http://go.microsoft.com/fwlink/?LinkID=398940
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(setupAction =>
@@ -50,8 +50,7 @@
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, 
-            ILoggerFactory loggerFactory, LibraryContext libraryContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory, LibraryContext libraryContext)
         {
             loggerFactory.AddConsole();
 
@@ -59,6 +58,7 @@
             {
                 app.UseDeveloperExceptionPage();
             }
+
             else
             {
                 app.UseExceptionHandler(appBuilder =>
@@ -74,8 +74,8 @@
             AutoMapper.Mapper.Initialize(cfg =>
             {
                 cfg.CreateMap<Entities.Author, Models.AuthorDto>()
-                   .ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
-                   .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.DateOfBirth.GetCurrentAge()));
+                    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => $"{src.FirstName} {src.LastName}"))
+                    .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.DateOfBirth.GetCurrentAge()));
                 cfg.CreateMap<Entities.Book, Models.BookDto>();
                 cfg.CreateMap<Models.AuthorForCreationDto, Author>();
                 cfg.CreateMap<Models.BookForCreationDto, Book>();
@@ -85,7 +85,7 @@
 
             libraryContext.EnsureSeedDataForContext();
 
-            app.UseMvc(); 
+            app.UseMvc();
         }
     }
 }
